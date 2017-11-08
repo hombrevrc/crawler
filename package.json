@@ -1,0 +1,40 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "Automated web crawler.",
+  "scripts": {
+    "start": "npm install && npm build && npm run watch",
+    "build": "npm run build-ts && npm run tslint && echo Build finished!",
+    "build-ts": "tsc",
+    "build-watch": "tsc -w",
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node --inspect src/server.ts",
+    "test": "mocha -r ts-node/register __tests__/**/*.spec.ts --exit"
+  },
+  "author": {
+    "name": "Rafael Vargas",
+    "email": "raafvargas@hotmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "tsc": "^1.20150623.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^8.0.50",
+    "@types/supertest": "^2.0.3",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.11.0",
+    "supertest": "^3.0.0",
+    "ts-node": "^3.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raafvargas/crawler.git"
+  }
+}
