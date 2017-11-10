@@ -122,5 +122,5 @@ const result = await webCrawler.crawl(relatedRepositoriesCrawler);
 
 ## Important
 
-PhantomJS must be installed and environment variable PHANTOM_PATH must be set
+PhantomJS must be installed and environment variable PHANTOM_PATH must be set.
 [Here](http://phantomjs.org/download.html) you can find a tutorial about how to install PhantomJS.
