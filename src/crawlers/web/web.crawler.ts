@@ -30,7 +30,7 @@ export class WebCrawler implements ICrawler {
         }
     }
 
-    async execute(step: Step): Promise<any[]> {
+    private async execute(step: Step): Promise<any[]> {
         let results = [];
 
         if (step.steps) {
@@ -59,7 +59,7 @@ export class WebCrawler implements ICrawler {
         return results;
     }
 
-    async executeSingle(step: Step): Promise<any[]> {
+    private async executeSingle(step: Step): Promise<any[]> {
         let results = [];
         const resolver = this.stepResolverFactory.create(step.stepKind);
         const result = await resolver(this.webPage, step.selector, step.valueFrom, step.valueToSet);

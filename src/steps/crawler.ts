@@ -12,7 +12,6 @@ export interface Step {
     valueToSet?: string;
     recursive?: Recursive;
     valueFrom?: ValueFrom;
-    nextStepDelay?: number;
 }
 
 export interface Recursive {
