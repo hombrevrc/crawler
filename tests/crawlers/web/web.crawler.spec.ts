@@ -7,7 +7,7 @@ describe('Web Crawler', () => {
         .create(crawlers.CrawlerKind.web);
 
     const crawlerInfo = <Crawler>{
-        url: 'https://github.com/andreposman',
+        url: 'https://github.com/raafvargas',
         steps: [
             {
                 fieldName: 'image',
