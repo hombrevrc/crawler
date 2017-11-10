@@ -36,11 +36,24 @@ export class WebCrawler implements ICrawler {
         if (step.steps) {
             for (let index = 0; index < step.steps.length; index++) {
                 const items = await this.execute(step.steps[index]);
-                results.concat(items);
+                results = results.concat(items);
             }
         } else {
             const items = await this.executeSingle(step);
             results = results.concat(items);
+        }
+
+        if (step.recursive) {
+            await this.webPage.evaluate(
+                step.recursive.next.handler, step.recursive.next.args);
+
+            const finished = await this.webPage.evaluate(
+                step.recursive.stop.handler, step.recursive.stop.args);
+
+            if (!finished) {
+                results = results.concat(
+                    await this.execute(step));
+            }
         }
 
         return results;
