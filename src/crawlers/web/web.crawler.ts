@@ -19,11 +19,12 @@ export class WebCrawler implements ICrawler {
 
             for (let index = 0; index < crawlerInfo.steps.length; index++) {
                 const step = crawlerInfo.steps[index];
-                const results = await this.execute(step);
+                const result = await this.execute(step);
 
-                results.concat(
-                    results);
+                result.forEach(r => results.push(r));
             }
+
+            console.log('results crawl', results);
 
             return results;
         }
@@ -37,11 +38,11 @@ export class WebCrawler implements ICrawler {
 
         if (step.steps) {
             for (let index = 0; index < step.steps.length; index++) {
-                results.concat(
+                results.push(
                     await this.execute(step.steps[index]));
             }
         } else {
-            results.concat(
+            results.push(
                 await this.executeSingle(step));
         }
 
@@ -53,7 +54,9 @@ export class WebCrawler implements ICrawler {
         const resolver = this.stepResolverFactory.create(step.stepKind);
         const result = await resolver(this.webPage, step.selector, step.valueFrom, step.valueToSet);
 
-        results.concat(result);
+        const obj = {};
+        obj[step.fieldName] = result;
+        results.push(obj);
 
         if (step.recursive) {
             const finished = await this.webPage.evaluate(
@@ -63,7 +66,7 @@ export class WebCrawler implements ICrawler {
                 await this.webPage.evaluate(
                     step.recursive.next.handler, step.recursive.next.args);
 
-                results.concat(
+                results.push(
                     await this.executeSingle(step));
             }
         }

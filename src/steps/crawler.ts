@@ -23,7 +23,8 @@ export interface Recursive {
 export enum ValueFrom {
     text = 0,
     value = 1,
-    src = 2
+    src = 2,
+    html = 3
 }
 
 export enum RecursiveStopKind {

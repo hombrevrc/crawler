@@ -29,6 +29,8 @@ export class StepResolverFactory {
                     return (<HTMLInputElement>element).value;
                 case 2:
                     return (<HTMLImageElement>element).src;
+                case 3:
+                    return element.innerHTML;
                 default:
                     return (<HTMLInputElement>element).value;
             }
@@ -47,6 +49,9 @@ export class StepResolverFactory {
                     break;
                 case 2:
                     (<HTMLImageElement>element).src = valueToSet;
+                    break;
+                case 3:
+                    element.innerHTML = valueToSet;
                     break;
                 default:
                     (<HTMLInputElement>element).value = valueToSet;
