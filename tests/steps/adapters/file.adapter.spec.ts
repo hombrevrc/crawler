@@ -10,7 +10,7 @@ describe('FileAdapter', () => {
             const steps = await adapter.transform(filePath);
             chai.assert.isNotNull(steps);
         } catch (err) {
-            chai.assert.fail(undefined, undefined, err);
+            chai.assert.fail();
         }
     });
 

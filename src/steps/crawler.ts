@@ -27,11 +27,6 @@ export enum ValueFrom {
     html = 3
 }
 
-export enum RecursiveStopKind {
-    selectorMissing = 0,
-    selectorAppear = 1
-}
-
 export enum StepKind {
     setValue = 0,
     getValue = 1,

@@ -15,16 +15,13 @@ export class WebCrawler implements ICrawler {
             this.webPage = await this.instance.createPage();
             await this.webPage.open(crawlerInfo.url);
 
-            const results = [];
+            let results = [];
 
             for (let index = 0; index < crawlerInfo.steps.length; index++) {
                 const step = crawlerInfo.steps[index];
                 const result = await this.execute(step);
-
-                result.forEach(r => results.push(r));
+                results = results.concat(result);
             }
-
-            console.log('results crawl', results);
 
             return results;
         }
@@ -34,39 +31,39 @@ export class WebCrawler implements ICrawler {
     }
 
     async execute(step: Step): Promise<any[]> {
-        const results = [];
+        let results = [];
 
         if (step.steps) {
             for (let index = 0; index < step.steps.length; index++) {
-                results.push(
-                    await this.execute(step.steps[index]));
+                const items = await this.execute(step.steps[index]);
+                results.concat(items);
             }
         } else {
-            results.push(
-                await this.executeSingle(step));
+            const items = await this.executeSingle(step);
+            results = results.concat(items);
         }
 
         return results;
     }
 
     async executeSingle(step: Step): Promise<any[]> {
-        const results = [];
+        let results = [];
         const resolver = this.stepResolverFactory.create(step.stepKind);
         const result = await resolver(this.webPage, step.selector, step.valueFrom, step.valueToSet);
 
-        const obj = {};
-        obj[step.fieldName] = result;
-        results.push(obj);
+        const mapping = new Object();
+        mapping[step.fieldName] = result;
+        results = results.concat(mapping);
 
         if (step.recursive) {
+            await this.webPage.evaluate(
+                step.recursive.next.handler, step.recursive.next.args);
+
             const finished = await this.webPage.evaluate(
                 step.recursive.stop.handler, step.recursive.stop.args);
 
             if (!finished) {
-                await this.webPage.evaluate(
-                    step.recursive.next.handler, step.recursive.next.args);
-
-                results.push(
+                results = results.concat(
                     await this.executeSingle(step));
             }
         }
